@@ -1,0 +1,96 @@
+return function(n,k)
+local Sn, isoClasses, isoClassesQuandles, nonisomorphicRacks, i, R, notHomsOfR, underlyingCount, f, valid, C, j, seen, homCandidates, G2, f2, homFound, phi, l, isQuandle;
+Sn := SymmetricGroup(n);
+isoClasses := [];
+isoClassesQuandles := [];
+nonisomorphicRacks := 1;
+PrintTo(Concatenation(GLR.path, "virtual_racks_of_order_", String(n), ".txt"), "return [ ");
+PrintTo(Concatenation(GLR.path, "virtual_quandles_of_order_", String(n), ".txt"), "return [ ");
+Print("Beginning search for virtual racks of order ",String(n),".\n");
+for i in [1..k] do # test for valid virtual structures
+	R := LRQ.Rack(n,i);
+	if n = 2 then
+		if i = 1 then
+			R:=[(),()]; # in the rack library, LRQ.Rack(2,1) is stored as [()], for whatever reason
+		fi;
+	fi;
+	notHomsOfR := [];
+	underlyingCount := 0;
+	Print("Searching for virtual structures on rack ",String(i)," of ",String(k),"...\n");
+	for f in Sn do
+		valid := true;
+		for j in [1..n] do 
+			# Is f a rack automorphism?
+			if f*R[j^f] <> R[j]*f then
+				valid := false;
+				break;
+			fi;
+		od;
+		if valid = true then 
+			# (R,f) is a virtual rack
+			# check whether (R,f) is isomorphic to a previously known virtual rack G2 = (R, f2)
+			seen := false;
+			C := ConjugacyClass(Sn, f);
+			if underlyingCount <> 0 then
+				for j in [nonisomorphicRacks..Length(isoClasses)] do # suffices since a rack isomorphism is also an isomorphism of the underlying racks
+					G2 := isoClasses[j];
+					f2 := G2[2];
+					# (R,f) and (R,f2) are isomorphic iff f and f2 are conjugate in the rack automorphism group
+					if not f2 in C then
+						continue;
+					fi;
+					# search for a virtual rack isomorphism from (R,f) to (R,f2)
+					# note that function composition is left to right in GAP
+					homFound := false;
+					homCandidates := AsList(RightCoset(Centralizer(Sn,f),RepresentativeAction(Sn,f,f2))); # conjugators of f and f2
+					for phi in homCandidates do
+						# Have we already seen that phi isn't in Aut(R)?
+						if phi in notHomsOfR then continue; fi;
+						# Is phi is a rack automorphism?
+						for l in [1..n] do
+							if R[l]*phi <> phi*R[l^phi] then
+								Add(notHomsOfR, phi);
+								continue;
+							fi;
+							homFound := true;
+							break;
+						od;
+						if homFound = true then
+							seen := true;
+							break;
+						fi;
+					od;
+					if seen = true then
+						break;
+					fi;
+				od;
+			fi;
+			if seen = false then
+				# found a brand-new virtual rack
+				underlyingCount := underlyingCount + 1;
+				Add(isoClasses,[R,f]);
+				AppendTo (Concatenation(GLR.path, "virtual_racks_of_order_", String(n), ".txt"), Concatenation(String([R,f]),",\n"));
+				# is this a virtual GL-quandle?
+				isQuandle:=true;
+				for l in [1..n] do
+					if l <> l^R[l] then
+						isQuandle := false;
+						break;
+					fi;
+				od;
+				if isQuandle then
+					Add(isoClassesQuandles,[R,f]);
+					AppendTo (Concatenation(GLR.path, "virtual_quandles_of_order_", String(n), ".txt"), Concatenation(String([R,f]),",\n"));
+				fi;
+			fi;
+		fi;
+	od;
+	nonisomorphicRacks := nonisomorphicRacks + underlyingCount;
+od;
+AppendTo (Concatenation(GLR.path, "virtual_racks_of_order_", String(n), ".txt")," ];");
+AppendTo (Concatenation(GLR.path, "virtual_quandles_of_order_", String(n), ".txt")," ];");
+Print(Concatenation("Printed results to ", GLR.path, "virtual_racks_of_order_", String(n), ".txt\n"));
+Print(Concatenation("Printed results to ", GLR.path, "virtual_quandles_of_order_", String(n), ".txt\n"));
+Print(Concatenation("Number of virtual racks of order ",String(n),": ",String(Length(isoClasses)),"\n"));
+Print("Number of virtual quandles of order ",String(n),": ",String(Length(isoClassesQuandles)),"\n");
+end;
