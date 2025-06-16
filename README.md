@@ -1,7 +1,10 @@
 # Virtual-Rack-Classification
 GAP programs for tabulating virtual racks and virtual quandles of a given order. Data up to order 8.
+
 Compiled by Lực Ta
+
 Based on the rack library of Petr Vojtěchovský and Seung Yeop Yang (https://www.cs.du.edu/~petr/libraries_of_algebraic_structures.html)
+
 See OEIS sequences [A385040](https://oeis.org/A385040) and [A385041](https://oeis.org/A385041) for enumerations.
 
 # Usage
