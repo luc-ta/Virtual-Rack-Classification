@@ -19,4 +19,4 @@ for n in [1..3] do
 	ReadAsFunction(Concatenation(LRQ.path, "virtual-rack-finder-2.txt"))()(n,racks[n]);
 od;
 ```
-Here, `racks` is a list whose _n_th entry is the number of isomorphism classes of racks of order _n_. The entries of `racks` are taken from OEIS sequence [A181770](https://oeis.org/A181770).
+Here, `racks` is a list whose _n_-th entry is the number of isomorphism classes of racks of order _n_. The entries of `racks` are taken from OEIS sequence [A181770](https://oeis.org/A181770).
