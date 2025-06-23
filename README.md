@@ -1,11 +1,13 @@
 # Virtual-Rack-Classification
-GAP programs for tabulating virtual racks and virtual quandles of a given order. Data up to order 8.
+GAP program for tabulating virtual racks and virtual quandles of a given order. Data up to order 8.
 
 Compiled by Lực Ta
 
 Based on the rack library of Petr Vojtěchovský and Seung Yeop Yang (https://www.cs.du.edu/~petr/libraries_of_algebraic_structures.html)
 
 See OEIS sequences [A385040](https://oeis.org/A385040) and [A385041](https://oeis.org/A385041) for enumerations.
+
+See the paper ["Enumeration of virtual quandles up to isomorphism"](https://arxiv.org/abs/2506.16536) for further information.
 
 # Usage
 `virtual-rack-finder.txt` exhaustively searches for virtual structures on all racks of a given order _n_ in Vojtěchovský and Yang's library, searches for isomorphisms between them, and outputs a list of all virtual racks of order _n_ up to isomorphism.
