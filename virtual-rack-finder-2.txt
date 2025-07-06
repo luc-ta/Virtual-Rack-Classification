@@ -4,8 +4,8 @@ Sn := SymmetricGroup(n);
 isoClasses := [];
 isoClassesQuandles := [];
 nonisomorphicRacks := 1;
-PrintTo(Concatenation(LRQ.path, "virtual_racks_of_order_", String(n), ".txt"), "return [ ");
-PrintTo(Concatenation(LRQ.path, "virtual_quandles_of_order_", String(n), ".txt"), "return [ ");
+PrintTo(Concatenation(GLR.path, "virtual_racks_of_order_", String(n), ".txt"), "return [ ");
+PrintTo(Concatenation(GLR.path, "virtual_quandles_of_order_", String(n), ".txt"), "return [ ");
 Print("Beginning search for virtual racks of order ",String(n),".\n");
 for i in [1..k] do # test for valid virtual structures
 	R := LRQ.Rack(n,i);
@@ -47,13 +47,13 @@ for i in [1..k] do # test for valid virtual structures
 						# Have we already seen that phi isn't in Aut(R)?
 						if phi in notHomsOfR then continue; fi;
 						# Is phi is a rack automorphism?
+						homFound := true;
 						for l in [1..n] do
 							if R[l]*phi <> phi*R[l^phi] then
 								Add(notHomsOfR, phi);
-								continue;
+								homFound := false;
+								break;
 							fi;
-							homFound := true;
-							break;
 						od;
 						if homFound = true then
 							seen := true;
@@ -69,7 +69,7 @@ for i in [1..k] do # test for valid virtual structures
 				# found a brand-new virtual rack
 				underlyingCount := underlyingCount + 1;
 				Add(isoClasses,[R,f]);
-				AppendTo (Concatenation(LRQ.path, "virtual_racks_of_order_", String(n), ".txt"), Concatenation(String([R,f]),",\n"));
+				AppendTo (Concatenation(GLR.path, "virtual_racks_of_order_", String(n), ".txt"), Concatenation(String([R,f]),",\n"));
 				# is this a virtual GL-quandle?
 				isQuandle:=true;
 				for l in [1..n] do
@@ -80,17 +80,17 @@ for i in [1..k] do # test for valid virtual structures
 				od;
 				if isQuandle then
 					Add(isoClassesQuandles,[R,f]);
-					AppendTo (Concatenation(LRQ.path, "virtual_quandles_of_order_", String(n), ".txt"), Concatenation(String([R,f]),",\n"));
+					AppendTo (Concatenation(GLR.path, "virtual_quandles_of_order_", String(n), ".txt"), Concatenation(String([R,f]),",\n"));
 				fi;
 			fi;
 		fi;
 	od;
 	nonisomorphicRacks := nonisomorphicRacks + underlyingCount;
 od;
-AppendTo (Concatenation(LRQ.path, "virtual_racks_of_order_", String(n), ".txt")," ];");
-AppendTo (Concatenation(LRQ.path, "virtual_quandles_of_order_", String(n), ".txt")," ];");
-Print(Concatenation("Printed results to ", LRQ.path, "virtual_racks_of_order_", String(n), ".txt\n"));
-Print(Concatenation("Printed results to ", LRQ.path, "virtual_quandles_of_order_", String(n), ".txt\n"));
+AppendTo (Concatenation(GLR.path, "virtual_racks_of_order_", String(n), ".txt")," ];");
+AppendTo (Concatenation(GLR.path, "virtual_quandles_of_order_", String(n), ".txt")," ];");
+Print(Concatenation("Printed results to ", GLR.path, "virtual_racks_of_order_", String(n), ".txt\n"));
+Print(Concatenation("Printed results to ", GLR.path, "virtual_quandles_of_order_", String(n), ".txt\n"));
 Print(Concatenation("Number of virtual racks of order ",String(n),": ",String(Length(isoClasses)),"\n"));
 Print("Number of virtual quandles of order ",String(n),": ",String(Length(isoClassesQuandles)),"\n");
 end;
