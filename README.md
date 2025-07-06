@@ -16,7 +16,7 @@ For example, to run the search for all _n_ between 1 and 3, load Vojtěchovský 
 ```
 racks:=[1, 2, 6, 19, 74, 353, 2080, 16023, 159526, 2093244, 36265070];
 for n in [1..3] do
-	ReadAsFunction(Concatenation(LRQ.path, "virtual-rack-finder-2.txt"))()(n,racks[n]);
+	ReadAsFunction(Concatenation(LRQ.path, "virtual-rack-finder.txt"))()(n,racks[n]);
 od;
 ```
 Here, `racks` is a list whose _n_-th entry is the number of isomorphism classes of racks of order _n_. The entries of `racks` are taken from OEIS sequence [A181770](https://oeis.org/A181770).
