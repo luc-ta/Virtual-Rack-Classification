@@ -1,5 +1,5 @@
 # Virtual-Rack-Classification
-GAP program for tabulating virtual racks and virtual quandles of a given order. Data up to order 8.
+GAP program for classifying virtual racks and virtual quandles of a given order. Data up to order 8.
 
 Compiled by Lực Ta
 
